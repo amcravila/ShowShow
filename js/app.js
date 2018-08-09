@@ -7,15 +7,29 @@ $(document).ready(function() {
   }
 
   function myMethod(json) {
-    console.log(json.resultsPage.results.artist[0].id);
-  }
+     var artistEvent = json.resultsPage.results.event;
+     artistEvent.forEach( name => {
+       name === displayName;
+       console.log(displayName);
+     });
+   }
 
   $('#search-btn').click(function() {
     var inputValue = $('#search-text').val();
-    console.log(inputValue);
     var setValue = `https://api.songkick.com/api/3.0/search/artists.json?apikey=XFK6hX8iZ4LjPg6l&query="${inputValue}"`;
-    console.log(setValue);
-    fetch(setValue).then(jsonThen(myMethod));
+    fetch(setValue).then(jsonThen(searchShow));
   });
+
+  function searchShow(json) {
+    var artist_id = json.resultsPage.results.artist[0].id;
+    var setId = `https://api.songkick.com/api/3.0/artists/${artist_id}/calendar.json?apikey=XFK6hX8iZ4LjPg6l`;
+    fetch(setId).then(jsonThen(myMethod));
+  }
+
+  // function myFunction(json) {
+  //   var artist_id = json.resultsPage.results.artist[0].id;
+  //   seachEvent(artist_id);
+  //   console.log(json);
+  // }
 
 });
